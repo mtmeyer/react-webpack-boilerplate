@@ -1,10 +1,12 @@
-const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: './src/index.tsx',
   output: {
-    path: path.join(__dirname, "/build"),
-    filename: "index.bundle.js",
+    path: path.join(__dirname, '/build'),
+    filename: 'index.bundle.js',
   },
 
   devServer: {
@@ -13,7 +15,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
 
   module: {
@@ -21,63 +23,50 @@ module.exports = {
       {
         //Javascript loading
         test: /\.(js|jsx)$/,
-        use: { loader: "babel-loader" },
+        use: { loader: 'babel-loader' },
         exclude: /node-modules/,
       },
       {
         //Typescript loading
         test: /\.(ts|tsx)$/,
-        use: { loader: "ts-loader" },
+        use: { loader: 'ts-loader' },
         exclude: /node-modules/,
       },
       {
         //Global Sass loading
-        test: /\.s(c|a)ss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        test: /\.(s?c|a)ss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         exclude: /\.module\.s(c|a)ss$/,
       },
       {
         //Sass module loading
-        test: /\.s(c|a)ss$/,
+        test: /\.(s?c|a)ss$/,
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               importLoaders: 1,
               modules: true,
             },
           },
-          "sass-loader",
+          'sass-loader',
         ],
         include: /\.module\.s(c|a)ss$/,
       },
       {
-        //Global CSS loading
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-        exclude: /\.module\.css$/,
-      },
-      {
-        //CSS module loading
-        test: /\.css$/,
-        use: [
-          "style-loader",
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-              modules: true,
-            },
-          },
-        ],
-        include: /\.module\.css$/,
-      },
-      {
         //File loading
         test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
-        use: ["file-loader"],
+        use: ['file-loader'],
       },
     ],
   },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'src/index.html',
+    }),
+    new MiniCssExtractPlugin(),
+  ],
 };

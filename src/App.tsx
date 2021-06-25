@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import "./global.scss";
-import styles from "./App.module.scss";
+import './global.scss';
+import styles from './App.module.scss';
 
 export const App = () => {
   return (
