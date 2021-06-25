@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.tsx",
   output: {
     path: path.join(__dirname, "/build"),
     filename: "index.bundle.js",
@@ -13,15 +13,21 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
 
   module: {
     rules: [
       {
-        //JS & JSX loading
+        //Javascript loading
         test: /\.(js|jsx)$/,
         use: { loader: "babel-loader" },
+        exclude: /node-modules/,
+      },
+      {
+        //Typescript loading
+        test: /\.(ts|tsx)$/,
+        use: { loader: "ts-loader" },
         exclude: /node-modules/,
       },
       {
@@ -66,6 +72,11 @@ module.exports = {
           },
         ],
         include: /\.module\.css$/,
+      },
+      {
+        //File loading
+        test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
+        use: ["file-loader"],
       },
     ],
   },
